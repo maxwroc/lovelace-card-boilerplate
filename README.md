@@ -21,7 +21,7 @@ Startup setup for new lovelace (Home Assistant) card development
 
     `git remote set-url origin [your target repo url]`
     
-4. Change the card class name and the custom element name in index.ts
+4. Change the card class name and the custom element name in index.ts, update package.json
     
 5. Push the code and you are ready to go
 
