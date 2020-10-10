@@ -28,11 +28,13 @@ Startup setup for new lovelace (Home Assistant) card development
     `git push origin master`
     
 6. Build
- 
-    The output files are located in `dist` directory.
+    
+    Run `npm install` once before first build.
     
    * `npm run build` produces debug version of the code (just bundled but no crunched)
    * `npm run release` produces crunched bundle
-   
+ 
+    The output files are located in `dist` directory.
+    
     Note: The style.ts file is auto-generated
     
