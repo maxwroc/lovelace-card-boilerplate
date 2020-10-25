@@ -4,6 +4,13 @@
     overflow: hidden;
 }
 
+.card-content > div {
+    margin-bottom: 8px;
+}
+.card-content > div:last-child {
+    margin-bottom: 0;
+}
+
 .entity-spacing:first-child {
     margin-top: 0;
 }
@@ -14,7 +21,6 @@
 .entity-row {
     display: flex;
     align-items: center;
-    margin: 8px 0;
 }
 .entity-row .name {
     flex: 1;

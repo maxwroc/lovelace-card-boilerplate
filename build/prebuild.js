@@ -31,10 +31,31 @@ const minimizeCss =  content => {
 }
 
 const compileCss = async () => {
-    const cssCode = await readFile("src/styles.css");
+    const dir = "src/custom-element";
+    const files = fs.readdirSync(dir);
+    return Promise.all(files.map(async file => {
+        if (!file.endsWith(".css")) {
+            return;
+        }
 
-    return await writeFile("src/styles.ts", 'import { css } from "./lit-element"; const styles = css`' + minimizeCss(cssCode) + '`; export default styles;');
+        const sourceFilePath = `${dir}/${file}`;
+        const targetFilePath = sourceFilePath.replace(".css", "-styles.ts");
+
+        const cssCode = await readFile(sourceFilePath);
+        await writeFile(targetFilePath, 'import { css } from "../lit-element"; const styles = css`' + minimizeCss(cssCode) + '`; export default styles;');
+    }));
 };
 
+// Updates version printed in console window
+const updateVersion = async () => {
+    const filePath = "src/utils.ts";
+    const pkg = require("./../package.json");
+    const utils = await readFile(filePath);
+    const updatedUtils = utils.replace(/%c [0-9]+.[0-9]+.[0-9]+"/gm, `%c ${pkg.version}"`);
+    if (utils !== updatedUtils) {
+        await writeFile(filePath, updatedUtils);
+    }
+}
 
 compileCss();
+updateVersion();
