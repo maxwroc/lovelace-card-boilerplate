@@ -11,23 +11,32 @@ Startup setup for new lovelace (Home Assistant) card development
 * LitElement class extracted from the home-assistant-main element, this way lit-elemnt package doesn't need to be bundled which minimizes the bundle size
 
 ## How to use it?
-1. Clone this repo to your box
 
-    `git clone https://github.com/maxwroc/lovelace-card-boilerplate.git your-card-name`
+1. Get the template code
 
-2. Create empty repo on your git server and copy it's url
+    * Click on the "Use this template" button at the top of this page. Your private repo will be created for you.
 
-3. Change the remote url
+    * Clone your repo to your box
+    
+    OR
+    
+    * Clone this repo to your box
+      
+      `git clone https://github.com/maxwroc/lovelace-card-boilerplate.git your-card-name`
 
-    `git remote set-url origin [your target repo url]`
+    * Create empty repo on your git server and copy it's url
 
-4. Change the card class name and the custom element name in index.ts, update package.json
+    * Change the remote url
 
-5. Push the code and you are ready to go
+      `git remote set-url origin [your target repo url]`
+
+2. Change the card class name and the custom element name in index.ts, update package.json
+
+3. Push the code and you are ready to go
 
     `git push origin master`
 
-6. Build
+4. Build
 
     Run `npm install` once before first build.
 
@@ -38,5 +47,5 @@ Startup setup for new lovelace (Home Assistant) card development
 
     Note: The style.ts file is auto-generated
 
-7. Testing
+5. Testing
   ![image](https://user-images.githubusercontent.com/8268674/97108632-bf139780-16c6-11eb-82fd-2b6714c6667f.png)
