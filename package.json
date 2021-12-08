@@ -9,7 +9,8 @@
     "prerelease": "node build/prebuild.js",
     "release": "rollup --environment release -c",
     "test": "jest",
-    "test+debug": "SET DEBUG_MODE=1&&jest"
+    "test+debug": "SET DEBUG_MODE=1&&jest",
+    "watch": "rollup -c --watch"
   },
   "repository": {
     "type": "git",

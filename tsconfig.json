@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
+        "target": "es2017",
+        "module": "esnext",
         "moduleResolution": "node",
         "experimentalDecorators": true,
-        "target": "ES6",
         "alwaysStrict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
