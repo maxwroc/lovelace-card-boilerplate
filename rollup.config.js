@@ -1,5 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
+import cssImports from 'rollup-plugin-import-css';
+import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
@@ -8,6 +10,7 @@ export default function (args) {
   let targetFileName = pkg.main;
 
   const plugins = [
+    cssImports({minify:true}),
     resolve()
   ];
 
@@ -23,7 +26,8 @@ export default function (args) {
 
   let sourcemapPathTransform = undefined;
 
-  if (args.release) {
+  if (process.env.release) {
+    plugins.push(minifyHTML())
     plugins.push(
       terser({
         compress: {}
@@ -39,12 +43,10 @@ export default function (args) {
   }
 
   return {
-    external: ['lit-element'],
+    external: [],
     input: 'src/index.ts',
     output: {
-      globals: {
-        'lit-element': "LitElement"
-      },
+      globals: {},
       file: targetFileName,
       format: 'iife',
       sourcemap: true,

@@ -1,7 +1,7 @@
 import { HomeAssistant } from "../ha-types";
-import { html, LitElement } from "../lit-element";
+import { html, css, LitElement } from "lit";
 import { ICardConfig } from "../types";
-import styles from "./card-styles";
+import styles from "./card.css";
 
 /**
  * Main card class definition
@@ -14,7 +14,7 @@ export class MyCustomCard extends LitElement {
      * CSS for the card
      */
     static get styles() {
-        return styles;
+        return css(<TemplateStringsArray><any>[styles]);
     }
 
     /**

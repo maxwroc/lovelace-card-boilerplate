@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
-        "rootDir": "src",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
         "target": "ES6",
         "alwaysStrict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
         "noImplicitThis": true,
-        "strict": true
-    }
+        "strict": true,
+    },
 }
