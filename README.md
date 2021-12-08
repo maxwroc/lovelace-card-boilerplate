@@ -8,7 +8,7 @@ Startup setup for new lovelace (Home Assistant) card development
 * Map file generated, poiting to repo url (with version etc), this way debugging is possible without having source code locally
 * CSS code minimized, converted to TS and included in output bundle
 * Two bundle types: debug and crunched one
-* LitElement class extracted from the home-assistant-main element, this way lit-elemnt package doesn't need to be bundled which minimizes the bundle size
+* Teststing with Electron headless browser
 
 ## How to use it?
 

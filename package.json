@@ -7,7 +7,10 @@
     "prebuild": "node build/prebuild.js",
     "build": "rollup -c",
     "prerelease": "node build/prebuild.js",
-    "release": "rollup --release -c"
+    "release": "rollup --environment release -c",
+    "test": "jest",
+    "test+debug": "SET DEBUG_MODE=1&&jest",
+    "watch": "rollup -c --watch"
   },
   "repository": {
     "type": "git",
@@ -26,12 +29,38 @@
     "url": "https://github.com/maxwroc/lovelace-card-boilerplate/issues"
   },
   "homepage": "https://github.com/maxwroc/lovelace-card-boilerplate#readme",
+  "jest": {
+    "preset": "ts-jest",
+    "runner": "jest-electron/runner",
+    "testEnvironment": "jest-electron/environment",
+    "testMatch": [
+      "**/test/**/*.test.ts"
+    ],
+    "verbose": false,
+    "setupFilesAfterEnv": [
+      "<rootDir>/dist/my-custom-card.js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true
+      }
+    }
+  },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
+    "@types/jest": "^27.0.3",
+    "jest": "^24.9.0",
+    "jest-electron": "^0.1.12",
     "rollup": "^2.29.0",
+    "rollup-plugin-import-css": "^3.0.2",
+    "rollup-plugin-minify-html-literals": "^1.2.6",
     "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^24.3.0",
     "tslib": "^2.0.2",
     "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "lit": "^2.0.2"
   }
 }

@@ -1,49 +1,53 @@
 import { HomeAssistant } from "../ha-types";
-import { html, LitElement } from "../lit-element";
+import { html, css, LitElement, CSSResultGroup, TemplateResult } from "lit";
+import { property } from "lit/decorators";
 import { ICardConfig } from "../types";
-import styles from "./card-styles";
+import styles from "./card.css";
 
 /**
  * Main card class definition
  */
 export class MyCustomCard extends LitElement {
 
+    @property({ attribute: false })
     private cardTitle: string = "Card header";
+
+    @property({ attribute: false })
+    private state: string = "";
+
+    private entity: string = "";
 
     /**
      * CSS for the card
      */
-    static get styles() {
-        return styles;
-    }
-
-    /**
-     * List of properties which trigger update when changed
-     */
-    static get properties() {
-        return {
-            cardTitle: { type: String },
-        };
+    static get styles(): CSSResultGroup {
+        return css(<TemplateStringsArray><any>[styles]);
     }
 
     /**
      * Called on every hass update
      */
     set hass(hass: HomeAssistant) {
+        if (!this.entity || !hass.states[this.entity]) {
+            return;
+        }
+
+        this.state = hass.states[this.entity].state;
     }
 
     /**
      * Called every time when entity config is updated
      * @param config Card configuration (yaml converted to JSON)
      */
-    setConfig(config: ICardConfig) {
-        this.cardTitle = config.title;
+    setConfig(config: ICardConfig): void {
+        this.entity = config.entity;
+        this.cardTitle = config.title || this.cardTitle;
     }
 
     /**
      * Renders the card when the update is requested (when any of the properties are changed)
      */
-    render() {
+    render(): TemplateResult {
         return html`
         <ha-card>
             <div class="card-header">
@@ -65,7 +69,7 @@ export class MyCustomCard extends LitElement {
                             <div class="secondary">Secondary info</div>
                         </div>
                         <div class="state">
-                            State
+                            ${this.state}
                         </div>
                     <div>
                 </div>

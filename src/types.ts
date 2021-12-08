@@ -1,3 +1,4 @@
 export interface ICardConfig {
-    title: string
+    title?: string;
+    entity: string;
 }
