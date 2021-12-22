@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import cssImports from 'rollup-plugin-import-css';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { terser } from 'rollup-plugin-terser';
+import versionInjector from 'rollup-plugin-version-injector';
 import pkg from './package.json';
 
 export default function (args) {
@@ -11,7 +12,11 @@ export default function (args) {
 
   const plugins = [
     cssImports({minify:true}),
-    resolve()
+    resolve(),
+    versionInjector({
+      injectInComments: false,
+      logLevel: 'warn',
+    }),
   ];
 
   const target = args.target ? args.target.toUpperCase() : null;
