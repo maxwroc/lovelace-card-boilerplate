@@ -6,58 +6,47 @@ import { terser } from 'rollup-plugin-terser';
 import versionInjector from 'rollup-plugin-version-injector';
 import pkg from './package.json';
 
-export default function (args) {
+let targetFileName = pkg.main;
 
-  let targetFileName = pkg.main;
+const plugins = [
+  cssImports({minify:true}),
+  resolve(),
+  versionInjector({
+    injectInComments: false,
+    logLevel: 'warn',
+  }),
+];
 
-  const plugins = [
-    cssImports({minify:true}),
-    resolve(),
-    versionInjector({
-      injectInComments: false,
-      logLevel: 'warn',
-    }),
-  ];
+plugins.push(typescript());
 
-  const target = args.target ? args.target.toUpperCase() : null;
-  const allowedTargets = ["ES3", "ES5", "ES6"];
-  if (allowedTargets.some(t => t == target)) {
-    plugins.push(typescript({ target: target }));
-    targetFileName = targetFileName.replace(".js", `.${target.toLowerCase()}.js`);
-  }
-  else {
-    plugins.push(typescript());
-  }
+let sourcemapPathTransform = undefined;
 
-  let sourcemapPathTransform = undefined;
+if (process.env.release) {
+  plugins.push(minifyHTML())
+  plugins.push(
+    terser({
+      compress: {}
+    })
+  );
 
-  if (process.env.release) {
-    plugins.push(minifyHTML())
-    plugins.push(
-      terser({
-        compress: {}
-      })
-    );
+  let repoRoot = pkg.repository.url
+    .replace("https://github.com", "https://raw.githubusercontent.com")
+    .replace(/.git$/, "");
+  repoRoot += "/";
 
-    let repoRoot = pkg.repository.url
-      .replace("https://github.com", "https://raw.githubusercontent.com")
-      .replace(/.git$/, "");
-    repoRoot += "/";
+  sourcemapPathTransform = file => repoRoot + "v" + pkg.version + file.substr(2);
+}
 
-    sourcemapPathTransform = file => repoRoot + "v" + pkg.version + file.substr(2);
-  }
-
-  return {
-    external: [],
-    input: 'src/index.ts',
-    output: {
-      globals: {},
-      file: targetFileName,
-      format: 'iife',
-      sourcemap: true,
-      sourcemapExcludeSources: true,
-      sourcemapPathTransform: sourcemapPathTransform
-    },
-    plugins: plugins,
-  }
-};
+export default {
+  external: [],
+  input: 'src/index.ts',
+  output: {
+    globals: {},
+    file: targetFileName,
+    format: 'iife',
+    sourcemap: true,
+    sourcemapExcludeSources: true,
+    sourcemapPathTransform: sourcemapPathTransform
+  },
+  plugins: plugins,
+}
